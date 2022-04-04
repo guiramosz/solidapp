@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FeedController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +15,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+/* Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
-})->name('dashboard');
+})->name('dashboard'); */
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [FeedController::class, 'index'])->name('dashboard');
+
+Route::middleware(['auth:sanctum', 'verified'])->post('/new_post',[FeedController::class, 'store'] )->name('new_post');
