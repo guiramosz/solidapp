@@ -26,13 +26,15 @@
     Não há postagens ainda
 </p>
 @else
+
 <!-- Feed -->
+@foreach ($posts as $post)
 <div class="card">
-    <h5 class="card-header">User</h5>
+    <h5 class="card-header">user</h5>
     <img src="https://www.dropbox.com/s/5xp7sy21sqb6jm4/ImageCap.jpg?raw=1" class="card-img-top" alt="...">
     <div class="card-body">
-        <h5 class="card-title">Título</h5>
-        <p class="card-text">Texto conteúdo</p>
+        <h5 class="card-title">{{$post->titulo}}</h5>
+        <p class="card-text">{{$post->conteudo}}</p>
         <h6 class="card-title">Local</h6>
 
         <!-- Botões compartilhar, comentar e curtir  -->
@@ -56,7 +58,9 @@
 
     </div>
 </div>
+@endforeach
 <!-- Final feed  -->
+
 @endif
 
 <button type="button" class="botao-flutuante bg-danger"
@@ -81,7 +85,7 @@ aria-labelledby="modalFormularioLabel" aria-hidden="true">
                     <!-- Conteúdo  -->
                     <textarea   class="form-control me-2 mb-3" name="conteudo"  id="conteudo" cols="30" placeholder="Digite o conteúdo..." required rows="5"></textarea>
                     <!-- Local -->
-                    <input      class="form-control me-2 mb-3" name="local"     id="local"  type="text" placeholder="Digite o local..." required>
+                    <input      class="form-control me-2 mb-3" name="local"     id="local"  type="text" placeholder="Digite o local...">
                     <!-- Link  -->
                     <input      class="form-control me-2 mb-3" name="link"      id="link"   type="url"  placeholder="Digite o link...">
                     

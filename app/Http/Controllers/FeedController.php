@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+
 use App\Models\Post;
+
 
 class FeedController extends Controller
 {
     //Carregamento das postagens
     public function index()
     {
-        $posts = Post::orderBy('created_at', 'desc')->get();
+        /* $posts = Post::orderBy('created_at', 'desc')->get(); */
+        $posts = Post::join('users', 'users.id', '=', 'posts.id_user')
+            ->select('users.name as name', 'posts.*')
+            ->orderBy('created_at', 'desc')->get();
+
         return view('dashboard',['posts'=>$posts]);
     }
 
@@ -21,15 +28,27 @@ class FeedController extends Controller
 
         $post = new Post;
         $post->id_user = $user->id;
-        $post->imagem = $request->imagem;
         $post->titulo = $request->titulo;
         $post->conteudo = $request->conteudo;
         $post->local = $request->local;
         $post->link = $request->link;
 
+        if($request->file('imagem') != null)
+        {
+            //Cria uma string única baseada no slug do nome do usuári
+            $slug = Str::of($user->name)->slug('-');
+            $string = md5($request->file('imagem')->getClientOriginalName());
+            if($request->file('imagem')->isValid())
+            {
+                $nameFile = $slug . $string . '.' . $request->file('imagem')->extension();
+                $request->file('imagem')->storeAs('public/imagens', $nameFile);
+                $post->imagem = 'imagens/' . $nameFile;
+            }
+        }
+
         $post->save();
         return redirect('dashboard');
-
+        
     }
 
 }

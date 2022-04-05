@@ -17,11 +17,11 @@ return new class extends Migration
             $table->id(); 
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users');
-            $table->string('imagem');
+            $table->string('imagem')->nullable();
             $table->string('titulo');
             $table->text('conteudo');
-            $table->string('local');
-            $table->string('link');
+            $table->string('local')->nullable();
+            $table->string('link')->nullable();
 
             $table->timestamps();
         });
