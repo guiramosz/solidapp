@@ -29,9 +29,12 @@
 
 <!-- Feed -->
 @foreach ($posts as $post)
-<div class="card">
-    <h5 class="card-header">user</h5>
-    <img src="https://www.dropbox.com/s/5xp7sy21sqb6jm4/ImageCap.jpg?raw=1" class="card-img-top" alt="...">
+<div class="card mb-4">
+    <h5 class="card-header">{{$post->name}}</h5>
+    @if($post->imagem != null)
+    <!-- <img src="{{url('/') .'/' . $post->imagem}}" class="card-img-top" alt="..."> -->
+    <img src="<?php echo asset("storage/app/$post->imagem")?>">
+    @endif
     <div class="card-body">
         <h5 class="card-title">{{$post->titulo}}</h5>
         <p class="card-text">{{$post->conteudo}}</p>
@@ -43,7 +46,7 @@
 
             <a href="#" class="link-post"><i class="fal fa-comment fa-2x"></i></a>
 
-            <a href="#" class="link-post"><i class="fal fa-heart fa-2x"></i></a>
+            <!-- <a href="#" class="link-post"><i class="fal fa-heart fa-2x"></i></a> -->
             <!-- <i class="fas fa-heart fa-2x"></i> -->
         </div>
 
@@ -52,7 +55,7 @@
         <textarea placeholder="Digite algo..." name="comentarios" id="comentario" rows="3" class="form-control"></textarea>
         
         <!-- Botão enviar comentario  -->
-        <div class="d-flex flex-row-reverse bd-highlight">
+        <div class="d-flex  bd-highlight">
             <a href="#" class="link-post mt-3"><i class="fal fa-paper-plane fa-2x"></i></a>
         </div>
 

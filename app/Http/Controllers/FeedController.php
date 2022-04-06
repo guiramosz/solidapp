@@ -13,12 +13,11 @@ class FeedController extends Controller
     //Carregamento das postagens
     public function index()
     {
-        /* $posts = Post::orderBy('created_at', 'desc')->get(); */
-        $posts = Post::join('users', 'users.id', '=', 'posts.id_user')
-            ->select('users.name as name', 'posts.*')
-            ->orderBy('created_at', 'desc')->get();
-
-        return view('dashboard',['posts'=>$posts]);
+        $posts = Post::join('users', 'users.id', '=','posts.id_user')
+        ->orderBy('created_at', 'desc')
+        ->get(['posts.*', 'users.name']);
+        
+        return view ('dashboard', ['posts' => $posts]);
     }
 
     //Grava a postagem pelo o formulario da tela feed
@@ -41,7 +40,7 @@ class FeedController extends Controller
             if($request->file('imagem')->isValid())
             {
                 $nameFile = $slug . $string . '.' . $request->file('imagem')->extension();
-                $request->file('imagem')->storeAs('public/imagens', $nameFile);
+                $request->file('imagem')->storeAs('imagens', $nameFile);
                 $post->imagem = 'imagens/' . $nameFile;
             }
         }
@@ -50,6 +49,7 @@ class FeedController extends Controller
         return redirect('dashboard');
         
     }
+
 
 }
 /* $table->unsignedBigInteger('id_user');

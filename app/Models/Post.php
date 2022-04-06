@@ -21,7 +21,12 @@ class Post extends Model
 
     public function curtidas()
     {
-        return $this->hasMany(Curtida::class);
+        return $this->hasMany(Curtida::class)->where(function($query){
+            if(auth()->check()){
+                $query->where('id_user', auth()->user()->id);
+            }
+        });
     }
+
 }
 
