@@ -32,17 +32,15 @@ class FeedController extends Controller
         $post->local = $request->local;
         $post->link = $request->link;
 
-        if($request->file('imagem') != null)
+        //upload de imagens
+        if($request->hasfile('imagem') && $request->file('imagem')->isValid())
         {
-            //Cria uma string única baseada no slug do nome do usuári
-            $slug = Str::of($user->name)->slug('-');
-            $string = md5($request->file('imagem')->getClientOriginalName());
-            if($request->file('imagem')->isValid())
-            {
-                $nameFile = $slug . $string . '.' . $request->file('imagem')->extension();
-                $request->file('imagem')->storeAs('imagens', $nameFile);
-                $post->imagem = 'imagens/' . $nameFile;
-            }
+            $requestImage = $request->imagem;
+            $extensao = $requestImage->extension();
+            //nome do arquivo inicia com nome do usuário
+            $nomeImagem = $user->name . md5($requestImage->getClientOriginalName()) . '.' . $extensao;
+            $request->imagem->move(public_path('imagens'), $nomeImagem);
+            $post->imagem = $nomeImagem;
         }
 
         $post->save();

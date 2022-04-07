@@ -32,8 +32,7 @@
 <div class="card mb-4">
     <h5 class="card-header">{{$post->name}}</h5>
     @if($post->imagem != null)
-    <!-- <img src="{{url('/') .'/' . $post->imagem}}" class="card-img-top" alt="..."> -->
-    <img src="<?php echo asset("storage/app/$post->imagem")?>">
+    <img src="imagens/{{$post->imagem}}" class="card-img-top">
     @endif
     <div class="card-body">
         <h5 class="card-title">{{$post->titulo}}</h5>
